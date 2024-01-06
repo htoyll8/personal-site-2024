@@ -1,0 +1,35 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    title = [ (current_page.data.title || @title), site_name ].compact.join(" • ")
+    link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400" rel="stylesheet" type="text/css"
+    = stylesheet_link_tag "site"
+
+    / https://til.simonwillison.net/mastodon/verifying-github-on-mastodon
+    link rel="me" href="https://ruby.social/@henrik"
+
+    meta property="og:site_name" content=site_name
+    meta property="og:title" content=((current_page.data.title || @title) || site_name)
+
+    - if @og_description
+      meta property="og:description" content=@og_description
+
+  body
+    .outer-container
+      .inner-container
+
+        a href=(home_page? ? nil : "/") class="a--undecorated"
+          .avatar-wrapper
+            img#avatar.avatar class=("avatar--small" unless home_page?) src="/images/me.png" alt=""
+
+        nav class=(home_page? ? "big-top-space" : "mid-top-space")
+          ul.links
+            = list_link_to_unless_current("Projects", "/projects")
+            = list_link_to_unless_current("Github", "https://github.com/htoyll8")
+            = list_link_to_unless_current("Linkedin", "https://www.linkedin.com/in/tyler-holloway-482888141/")
+
+        = yield
+
+        = javascript_include_tag "site"
